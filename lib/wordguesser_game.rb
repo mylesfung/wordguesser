@@ -2,11 +2,48 @@ class WordGuesserGame
 
   # add the necessary class methods, attributes, etc. here
   # to make the tests in spec/wordguesser_game_spec.rb pass.
-
+  attr_accessor :word, :guesses, :wrong_guesses
+  
   # Get a word from remote "random word" service
 
   def initialize(word)
     @word = word
+    @guesses = ''
+    @wrong_guesses = ''
+  end
+
+  def guess(char)
+    if char.nil? || !'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'.include?(char) || char == '' 
+      raise ArgumentError
+    elsif @guesses.include?(char.downcase) || @wrong_guesses.include?(char.downcase)
+      return false
+    elsif @word.include?(char)
+      @guesses << char
+    else
+      @wrong_guesses << char
+    end
+  end
+
+  def check_win_or_lose
+    if @guesses.length == @word.length
+      :win
+    elsif @wrong_guesses.length < 7
+      :play
+    else
+      :lose
+    end
+  end
+
+  def word_with_guesses
+    string = ''
+    @word.each_char do |char|
+      if @guesses.include?(char)
+        string << char
+      else
+        string << '-'
+      end
+    end
+    string
   end
 
   # You can test it by installing irb via $ gem install irb
