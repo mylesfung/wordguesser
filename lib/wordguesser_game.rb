@@ -25,7 +25,10 @@ class WordGuesserGame
   end
 
   def check_win_or_lose
-    if @guesses.length == @word.length
+    num_unique_chars = @word.chars.uniq.join.length
+    puts "GUESSES: #{@guesses}; LENGTH: #{@guesses.length}"
+    puts "SECRET_WORD: #{@word}; LENGTH: #{@word.length}"
+    if @guesses.length == num_unique_chars
       :win
     elsif @wrong_guesses.length < 7
       :play
